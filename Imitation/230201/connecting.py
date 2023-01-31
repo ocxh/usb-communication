@@ -1,0 +1,56 @@
+import usb.core
+import usb.util
+import os
+import usb.backend.libusb1
+
+#Func
+def send(command, ep_out, ep_in):
+	dev.write(ep_out, command)
+	try:
+		res = dev.read(ep_in, 100000, 1000)
+		print(res)
+	except:
+		pass
+
+#main
+backend = usb.backend.libusb1.get_backend()
+dev = usb.core.find(idVendor=0x04E8, idProduct=0x6860, backend=backend)
+cfg = dev.get_active_configuration()
+intf = cfg[(0, 0)]
+ep_out = intf[1]
+ep_in = intf[0]
+
+print("[*]mtp-connection")
+os.system('mtp-connect')
+
+print("[*]Start")
+
+send(bytearray.fromhex("10000000010002100000000001000000"), ep_out, ep_in)
+
+send(bytearray.fromhex("0c0000000100011001000000"), ep_out, ep_in)
+send(bytearray.fromhex("0c0000000100011002000000"), ep_out, ep_in)
+send(bytearray.fromhex("10000000010015100300000002d40000"), ep_out, ep_in)
+send(bytearray.fromhex("0c0000000100041004000000"), ep_out, ep_in)
+send(bytearray.fromhex("10000000010005100500000001000100"), ep_out, ep_in)
+send(bytearray.fromhex("0c0000000100011006000000"), ep_out, ep_in)
+send(bytearray.fromhex("10000000010003950700000002000000"), ep_out, ep_in)
+send(bytearray.fromhex("1b0000000200039507000000000000000000000000000000010000"), ep_out, ep_in)
+send(bytearray.fromhex("10000000010003950800000002000000"), ep_out, ep_in)
+send(bytearray.fromhex("1b0000000200039508000000000000000400000000000000010000"), ep_out, ep_in)
+send(bytearray.fromhex("10000000010014100900000002d40000"), ep_out, ep_in)
+send(bytearray.fromhex("10000000010003950a00000003000000"), ep_out, ep_in)
+send(bytearray.fromhex("1b000000020003950a000000010000000000000000000000010000"), ep_out, ep_in)
+send(bytearray.fromhex("10000000010001950b000000ffffffff"), ep_out, ep_in)
+send(bytearray.fromhex("66000000020001950b0000005179366f7462435a697a3355713471733559616e69664348457a49756a596e45316770455170574e2b5a36333275787a6d6a724a704a716f34546558554656704c6a6f55374149360a4c456a5835797a787436654a57513d3d0a"), ep_out, ep_in)
+send(bytearray.fromhex("10000000010001950c000000ffffffff"), ep_out, ep_in)
+
+send(bytearray.fromhex("66000000020001950c0000005179366f7462435a697a3355713471733559616e69664348457a49756a596e45316770455170574e2b5a36333275787a6d6a724a704a716f34546558554656704c6a6f55374149360a4c456a5835797a787436654a57513d3d0a"), ep_out, ep_in)
+send(bytearray.fromhex("0c000000010002950d000000"), ep_out, ep_in)
+send(bytearray.fromhex("0c000000010002950e000000"), ep_out, ep_in)
+send(bytearray.fromhex("10000000010001950f000000ffffffff"), ep_out, ep_in)
+send(bytearray.fromhex("e7000000020001950f00000066347171366a344f627841424f3171336d6932643650366e5262544a77645244653951347936305a6b726f596b6865654636614b645a556569504f38766252647a5559376f4a35610a6d7059486a3048354a665a52786c363357334c324b4d496d714d6d4762384f4666366942353169686a65516d6d6248786748457365775952634f354f3165574f4e376c612f732b720a37474757324d464f593972752b316957683465443435476c5037446d344c2f4c30336d4346586977566a4e445377454c757a31664b5153684c5a4a336a73704a5676554c34513d3d0a"), ep_out, ep_in)
+
+send(bytearray.fromhex("0c0000000100029510000000"), ep_out, ep_in)
+send(bytearray.fromhex("0c0000000100029511000000"), ep_out, ep_in)
+
+print("[*]Done")
